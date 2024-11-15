@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Security Link Scanner</title>
+    <style>
+        /* สีพื้นหลังและฟอนต์ */
+        body {
+            background-color: #1c1c1c;
+            color: #ffffff;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        /* คอนเทนเนอร์หลัก */
+        .container {
+            width: 90%;
+            max-width: 600px;
+            background-color: #2d2d2d;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
+            text-align: center;
+        }
+
+        /* โลโก้และปุ่มโฮม */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .home-button {
+            color: #ffffff;
+            background-color: #4a4a4a;
+            padding: 8px 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background-color 0.3s;
+        }
+
+        .home-button:hover {
+            background-color: #666;
+        }
+
+        h1 {
+            font-size: 24px;
+            color: #ffcc00;
+        }
+
+        /* ช่องใส่ลิงก์และปุ่มสแกน */
+        input[type="url"] {
+            width: 80%;
+            padding: 12px;
+            margin-top: 15px;
+            border-radius: 5px;
+            border: 1px solid #666;
+            font-size: 16px;
+            background-color: #333;
+            color: #ffffff;
+        }
+
+        .scan-button {
+            padding: 12px 20px;
+            margin-top: 10px;
+            background-color: #ffcc00;
+            color: #1c1c1c;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+
+        .scan-button:hover {
+            background-color: #e6b800;
+        }
+
+        /* ส่วนแสดงผลลัพธ์ */
+        .results {
+            margin-top: 20px;
+            text-align: left;
+            font-size: 14px;
+        }
+
+        .safe {
+            color: #00ff00;
+        }
+
+        .unsafe {
+            color: #ff3300;
+        }
+
+        .recommendation {
+            margin-top: 15px;
+            background-color: #333;
+            padding: 10px;
+            border-radius: 5px;
+            color: #ffcc00;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Security Link Scanner</h1>
+            <button class="home-button" onclick="goHome()">Home</button>
+        </div>
+        
+        <p>กรุณาใส่ลิงก์ที่ต้องการตรวจสอบความปลอดภัย:</p>
+        
+        <input type="url" id="urlInput" placeholder="https://example.com">
+        <button class="scan-button" onclick="scanLink()">Scan</button>
+
+        <!-- ส่วนแสดงผลลัพธ์ -->
+        <div class="results" id="results">
+            <!-- ผลลัพธ์จะแสดงที่นี่ -->
+        </div>
+    </div>
+
+    <script>
+        // ฟังก์ชันสำหรับกลับไปหน้าโฮม
+        function goHome() {
+            window.location.href = 'index.html'; // เปลี่ยนเป็นลิงก์ของหน้าโฮมที่ต้องการ
+        }
+
+        // ฟังก์ชันสแกนลิงก์
+        function scanLink() {
+            const url = document.getElementById("urlInput").value;
+            const resultsDiv = document.getElementById("results");
+
+            if (!url) {
+                resultsDiv.innerHTML = "<p class='unsafe'>กรุณาใส่ลิงก์ที่ต้องการตรวจสอบ</p>";
+                return;
+            }
+
+            // ตัวอย่างผลลัพธ์ (ควรเชื่อมต่อกับ API จริงเพื่อความปลอดภัย)
+            let isSafe = Math.random() > 0.5; // จำลองผลลัพธ์แบบสุ่ม (ปลอดภัย/ไม่ปลอดภัย)
+            
+            if (isSafe) {
+                resultsDiv.innerHTML = `
+                    <p class="safe">ลิงก์นี้ปลอดภัย</p>
+                    <p>คำอธิบาย: ลิงก์นี้ไม่มีการพบช่องโหว่หรือความเสี่ยงที่ชัดเจน</p>
+                    <div class="recommendation">
+                        <strong>คำแนะนำ:</strong> สามารถใช้ลิงก์นี้ได้ แต่ควรตรวจสอบความปลอดภัยอย่างต่อเนื่อง
+                    </div>
+                `;
+            } else {
+                resultsDiv.innerHTML = `
+                    <p class="unsafe">ลิงก์นี้ไม่ปลอดภัย</p>
+                    <p>คำอธิบาย: พบช่องโหว่หรือความเสี่ยงที่อาจเป็นอันตราย เช่น มีมัลแวร์หรือฟิชชิง</p>
+                    <div class="recommendation">
+                        <strong>คำแนะนำ:</strong> หลีกเลี่ยงการเข้าถึงลิงก์นี้ และอย่าให้ข้อมูลส่วนตัวบนเว็บไซต์นี้
+                    </div>
+                `;
+            }
+        }
+    </script>
+</body>
+</html>

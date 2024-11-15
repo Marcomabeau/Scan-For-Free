@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Digital Email Breach Check</title>
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #0b0c10;
+            background-image: url('https://www.transparenttextures.com/patterns/dark-mosaic.png');
+            color: #c5c6c7;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            background-color: rgba(0, 0, 0, 0.7);
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 6px 12px rgba(0, 255, 255, 0.3);
+            max-width: 450px;
+            width: 100%;
+            text-align: center;
+            position: relative;
+        }
+
+        h1 {
+            font-size: 24px;
+            color: #66fcf1;
+            margin-bottom: 20px;
+        }
+
+        p {
+            font-size: 16px;
+            color: #45a29e;
+            margin-bottom: 20px;
+        }
+
+        input[type="email"] {
+            width: 80%;
+            padding: 12px;
+            margin: 10px 0;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            background-color: #1f2833;
+            color: #c5c6c7;
+        }
+
+        button {
+            padding: 12px 25px;
+            font-size: 16px;
+            background-color: #45a29e;
+            border: none;
+            border-radius: 5px;
+            color: #0b0c10;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #66fcf1;
+        }
+
+        .result {
+            margin-top: 20px;
+            font-size: 18px;
+            color: #66fcf1;
+        }
+
+        /* Button for HOME */
+        .home-button {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: #45a29e;
+            color: #0b0c10;
+            padding: 8px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .home-button:hover {
+            background-color: #66fcf1;
+            color: #0b0c10;
+        }
+
+        /* Adding the digital grid background */
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: url('https://www.transparenttextures.com/patterns/cubes.png');
+            opacity: 0.05;
+            z-index: -1;
+        }
+
+        /* Adding neon-style border */
+        .container {
+            border: 2px solid #66fcf1;
+            box-shadow: 0 0 20px rgba(102, 252, 241, 0.6), 0 0 30px rgba(102, 252, 241, 0.4), 0 0 40px rgba(102, 252, 241, 0.3);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <a href="index.html" class="home-button">HOME</a> <!-- Button to go back to home -->
+        <h1>Digital Email Breach Check</h1>
+        <p>Enter your email to check if it has been involved in a data breach.</p>
+        <form id="emailForm">
+            <input type="email" id="email" placeholder="Enter your email address" required>
+            <button type="submit">Scan</button>
+        </form>
+        <div class="result" id="result"></div>
+    </div>
+
+    <script>
+        document.getElementById('emailForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            
+            const email = document.getElementById('email').value;
+            const resultDiv = document.getElementById('result');
+            
+            if (!email) {
+                resultDiv.textContent = "Please enter a valid email.";
+                return;
+            }
+
+            // Display loading message
+            resultDiv.textContent = "Scanning...";
+
+            // Simulate an API call to check the email
+            setTimeout(function() {
+                // Example of a fake check result, you would replace this with actual API call logic
+                const isBreached = Math.random() < 0.5; // Simulate random result
+
+                if (isBreached) {
+                    resultDiv.textContent = `The email ${email} has been found in a data breach.`;
+                } else {
+                    resultDiv.textContent = `The email ${email} has not been found in any data breaches.`;
+                }
+            }, 2000);
+        });
+    </script>
+
+</body>
+</html>

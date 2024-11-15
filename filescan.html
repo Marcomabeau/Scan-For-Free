@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>File Security Scan</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #0b0c10;
+            background-image: url('https://www.transparenttextures.com/patterns/dark-mosaic.png');
+            color: #c5c6c7;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            position: relative;
+        }
+
+        h1 {
+            text-align: center;
+            color: #66fcf1;
+            margin-top: 20px;
+        }
+
+        p {
+            text-align: center;
+            font-size: 18px;
+            color: #45a29e;
+        }
+
+        #scanResults {
+            margin-top: 20px;
+            padding: 20px;
+            background-color: rgba(0, 0, 0, 0.7);
+            border: 2px solid #66fcf1;
+            border-radius: 10px;
+            max-width: 600px;
+            margin: 0 auto;
+            box-shadow: 0 0 20px rgba(102, 252, 241, 0.6), 0 0 30px rgba(102, 252, 241, 0.4), 0 0 40px rgba(102, 252, 241, 0.3);
+        }
+
+        input[type="file"], button {
+            display: block;
+            margin: 20px auto;
+            padding: 10px 20px;
+            background-color: #45a29e;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background-color: #66fcf1;
+        }
+
+        #results {
+            color: #66fcf1;
+        }
+
+        /* ปุ่ม Home */
+        .home-button {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: #45a29e;
+            color: #0b0c10;
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .home-button:hover {
+            background-color: #66fcf1;
+            color: #0b0c10;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ปุ่ม Home -->
+    <a href="index.html" class="home-button">HOME</a>
+
+    <div class="container">
+        <h1>File Security Scan</h1>
+        <p>อัปโหลดไฟล์ของคุณเพื่อทำการสแกนความปลอดภัย:</p>
+
+        <!-- ปุ่มอัปโหลดไฟล์ -->
+        <input type="file" id="fileInput" accept=".txt,.pdf,.docx,.xlsx,.jpg,.png" />
+        <!-- ปุ่มสำหรับแสกนไฟล์ -->
+        <button onclick="scanFile()">แสกนไฟล์</button>
+
+        <div id="scanResults">
+            <h3>ผลการสแกน:</h3>
+            <p id="results">ผลลัพธ์ของการสแกนไฟล์จะปรากฏที่นี่...</p>
+        </div>
+    </div>
+
+    <script>
+        function scanFile() {
+            // ดึงข้อมูลไฟล์ที่ผู้ใช้อัปโหลด
+            const fileInput = document.getElementById('fileInput');
+            const file = fileInput.files[0];
+
+            // ตรวจสอบว่าผู้ใช้งานเลือกไฟล์หรือไม่
+            if (!file) {
+                document.getElementById('results').innerHTML = 'กรุณาเลือกไฟล์ก่อนทำการสแกน';
+                return;
+            }
+
+            // แสดงข้อมูลเบื้องต้นของไฟล์
+            let resultText = 'ชื่อไฟล์: ' + file.name + '<br>';
+            resultText += 'ประเภทไฟล์: ' + file.type + '<br>';
+            resultText += 'ขนาดไฟล์: ' + (file.size / 1024).toFixed(2) + ' KB<br>';
+
+            // ตรวจสอบประเภทของไฟล์ (เบื้องต้น) และแสดงผลลัพธ์ความปลอดภัยง่ายๆ
+            if (file.type === 'text/plain' || file.type === 'application/pdf') {
+                resultText += 'ผลลัพธ์: ไม่มีการตรวจพบข้อบกพร่องที่สำคัญ<br>';
+            } else {
+                resultText += 'ผลลัพธ์: ไฟล์นี้อาจมีความเสี่ยง โปรดตรวจสอบไฟล์ด้วยเครื่องมือสแกนที่มีประสิทธิภาพ<br>';
+            }
+
+            // แสดงผลลัพธ์
+            document.getElementById('results').innerHTML = resultText;
+        }
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Network Security Scan</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #1e1e1e;
+            color: #fff;
+            margin: 0;
+            padding: 20px;
+            background-image: url('https://www.example.com/digital-world-background.jpg'); /* ภาพพื้นหลังดิจิทัล */
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+        h1 {
+            text-align: center;
+            margin-top: 20px;
+            color: #00d4ff;
+        }
+        p {
+            text-align: center;
+            font-size: 18px;
+        }
+        #scanResults {
+            margin-top: 20px;
+            padding: 20px;
+            background-color: rgba(0, 0, 0, 0.7);
+            border: 1px solid #00d4ff;
+            border-radius: 10px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        button {
+            display: block;
+            margin: 20px auto;
+            padding: 10px 20px;
+            background-color: #00d4ff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #007bff;
+        }
+        #results {
+            color: #00ff00;
+        }
+    </style>
+</head>
+<body>
+
+<!-- ปุ่ม Home -->
+    <a href="index.html" class="home-button">HOME</a>
+
+    <div class="container">
+        <h1>File Security Scan</h1>
+        <p>อัปโหลดไฟล์ของคุณเพื่อทำการสแกนความปลอดภัย:</p>
+
+    <h1>Network Security Scan</h1>
+    <p>คลิกปุ่มด้านล่างเพื่อสแกนเครือข่ายที่คุณเชื่อมต่ออยู่</p>
+    <button onclick="scanNetwork()">เริ่มการสแกน</button>
+
+    <div id="scanResults">
+        <h3>ผลการสแกน:</h3>
+        <p id="results">ข้อมูลเครือข่ายของคุณจะปรากฏที่นี่...</p>
+    </div>
+
+    <script>
+        async function scanNetwork() {
+            let resultText = '';
+            
+            // ดึงข้อมูล IP ภายนอกของผู้ใช้งานผ่าน WebRTC API
+            try {
+                const ip = await getPublicIP();
+                resultText += 'Public IP: ' + ip + '<br>';
+            } catch (error) {
+                resultText += 'ไม่สามารถดึงข้อมูล IP ได้<br>';
+            }
+
+            // ข้อมูลเบื้องต้นเกี่ยวกับเบราว์เซอร์และแพลตฟอร์ม
+            resultText += 'Browser: ' + navigator.userAgent + '<br>';
+            resultText += 'Platform: ' + navigator.platform + '<br>';
+            resultText += 'Language: ' + navigator.language + '<br>';
+
+            // แสดงผลข้อมูลบนหน้าเว็บ
+            document.getElementById('results').innerHTML = resultText;
+        }
+
+        // ฟังก์ชันดึง IP Address ภายนอกผ่าน WebRTC API
+        function getPublicIP() {
+            return new Promise((resolve, reject) => {
+                const pc = new RTCPeerConnection({ iceServers: [] });
+                pc.createDataChannel('');
+                pc.createOffer().then(offer => pc.setLocalDescription(offer));
+                pc.onicecandidate = event => {
+                    if (event && event.candidate && event.candidate.candidate) {
+                        const ipMatch = event.candidate.candidate.match(
+                            /([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3})/
+                        );
+                        if (ipMatch) {
+                            resolve(ipMatch[1]);
+                        }
+                    }
+                };
+                setTimeout(() => {
+                    reject('Failed to obtain IP');
+                }, 1000);
+            });
+        }
+    </script>
+
+</body>
+</html>
